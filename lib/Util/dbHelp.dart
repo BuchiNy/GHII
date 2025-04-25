@@ -52,16 +52,6 @@ class DatabaseHelper {
     return maps.map((map) => User.fromMap(map)).toList();
   }
 
-  Future<int> updateUser(User user) async {
-    final db = await database;
-    return await db.update(
-      'users',
-      user.toMap(),
-      where: 'id = ?',
-      whereArgs: [user.id],
-    );
-  }
-
   Future<int> deleteUser(int id) async {
     final db = await database;
     return await db.delete(
