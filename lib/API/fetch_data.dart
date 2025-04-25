@@ -6,7 +6,7 @@ import '../Util/dbHelp.dart';
 class fetchData{
   final String _url = 'https://api.github.com/repositories';
 
-  Future<void> fetchAndSaveRepos() async {
+  Future<void> fetchAndSave() async {
     final response = await http.get(Uri.parse(_url));
     if (response.statusCode == 200) {
       final List<dynamic> jsonList = jsonDecode(response.body) as List<dynamic>;

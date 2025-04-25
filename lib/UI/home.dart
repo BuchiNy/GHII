@@ -16,10 +16,14 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    // Fetch from API then load from DB
+    // 1) Initialize to an empty or existing DB query:
+    _futureUser = DatabaseHelper().getUsers();                // :contentReference[oaicite:6]{index=6}
+    // 2) Fetch from API & store, then refresh the future:
     fetchData()
-        .fetchAndSaveRepos()
-        .then((_) => setState(() => _futureUser = DatabaseHelper().getUsers()));
+        .fetchAndSave()
+        .then((_) => setState(() {
+      _futureUser = DatabaseHelper().getUsers();            // :contentReference[oaicite:7]{index=7}
+    }));
   }
 
   @override
@@ -31,7 +35,7 @@ class _HomeState extends State<Home> {
         ),),
         backgroundColor: Colors.black54,
       ),
-      backgroundColor: Colors.white70,
+      backgroundColor: Colors.white,
       body: SafeArea(child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -66,7 +70,8 @@ class _HomeState extends State<Home> {
                             backgroundImage: NetworkImage(user.avatarUrl),
                           ),
                           trailing: IconButton(
-                            icon: Icon(Icons.delete),
+                            icon: const Icon(Icons.delete,
+                            color: Colors.red,),
                             onPressed: () async {
                               await DatabaseHelper().deleteUser(user.id!);
                               setState((){
